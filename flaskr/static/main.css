@@ -12,14 +12,19 @@
     --spectrum-red: #E76F51;
 }
 
+/* Navigation tabs CSS */
+.nav-link {
+    color: var(--blue3);
+}
+
+
+/* Emergency stop tab CSS */
 #emergency-stop-tab {
     background-color: var(--spectrum-red);
 }
-
 #emergency-stop-tab:active {
     background-color:white;
 }
-
 #emergency-stop-tab #emergency-stop-icon{
     color: white;
     background-color: var(--spectrum-red);
@@ -27,36 +32,35 @@
 #emergency-stop-tab:active #emergency-stop-icon{
     color: var(--spectrum-red);
     background-color: white;
+}
 
+/* Control tab CSS */
+#destination-picker {
+    margin: 50px;
+    background-color: var(--spectrum-green);
 }
 
 
-
-/* Teleop CSS */
-
+/* Teleop tab CSS */
 div[class*="-tier"] {
     height: 50px;
 }
-
 .teleop-control-set {
     font-size: 40px;
     text-align: center;
 }
-
 i[class^="fas fa-arrow-alt-circle-"] {
     color: var(--spectrum-green);
 }
 i[class^="fas fa-arrow-alt-circle-"]:active {
     color: var(--spectrum-yellow);
 }
-
 .fas.fa-ban {
     color: var(--spectrum-red);
 }
 .fas.fa-ban:active {
     color: var(--spectrum-yellow);
 }
-
 .help-text {
     margin-top: 30px;
     font-size: 16px;
