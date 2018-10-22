@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block teleop_tab %}
+<a id="teleop" class="nav-link active" href="#" onclick="navigateToPage('teleop')">Teleop</a>
+{% endblock %}
+
+{% block content %} 
+<div class="teleop-control-set">
+    <div class="teleop-control-top-tier">
+        <i id="up-arrow" class="fas fa-arrow-alt-circle-up" onclick="postToRoute('teleop/forward')"></i>
+    </div>
+    <div class="teleop-control-middle-tier">
+        <i id="left-arrow" class="fas fa-arrow-alt-circle-left" onclick="postToRoute('teleop/left')"></i>
+        <i id="down-arrow" class="fas fa-arrow-alt-circle-down" onclick="postToRoute('teleop/backward')"></i>
+        <i id="right-arrow" class="fas fa-arrow-alt-circle-right" onclick="postToRoute('teleop/right')"></i>
+    </div>
+    <div class="teleop-control-bottom-tier">
+            <i id="stop-button" class="fas fa-ban" onclick="postToRoute('teleop/stop')"></i>
+    </div>
+    <div class="help-text">
+        You can also use arrow keys. Spacebar stops the robot.
+    </div>
+</div>
+<script>
+    document.onkeydown = function(event) {
+        var keyPressed = event.code;
+        switch(keyPressed) {
+            case 'ArrowUp':
+                document.getElementById('up-arrow').click();
+                break;
+            case 'ArrowDown':
+                document.getElementById('down-arrow').click();
+                break;
+            case 'ArrowLeft':
+                document.getElementById('left-arrow').click();
+                break;
+            case 'ArrowRight':
+                document.getElementById('right-arrow').click();
+                break;
+            case 'Space':
+                document.getElementById('stop-button').click();
+                break;
+        }
+    }
+</script>
+{% endblock %}

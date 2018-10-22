@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <!-- FontAwesome CSS -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    </head>
+    <nav>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                {% block current_tab %}
+                    <a id="current" class="nav-link" href="#" onclick="navigateToPage('current')">Current</a>
+                {% endblock %}
+            </li>
+            <li class="nav-item">
+                {% block control_tab %}
+                    <a id="control" class="nav-link" href="#" onclick="navigateToPage('control')">Control</a>
+                {% endblock %}
+            </li>
+            <li class="nav-item">
+                {% block teleop_tab %}
+                    <a id="teleop" class="nav-link" href="#" onclick="navigateToPage('teleop')">Teleop</a>
+                {% endblock %}
+            </li>
+            <li class="nav-item">
+                {% block admin_tab %}
+                    <a id="admin" class="nav-link" href="#" onclick="navigateToPage('admin')">Admin</a>
+                {% endblock %}
+            </li>
+            <li class="nav-item">
+                <a id="emergency-stop-tab" class="nav-link" href="#" onclick="postToRoute('teleop/stop')">
+                    <i id="emergency-stop-icon" class="fas fa-ban"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <body>
+        {% block content %}{% endblock %}
+        <!-- Bootstrap javascript -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <!-- Main CSS: Placed here instead of above; otherwise it gets overriden by cdnjs.cloudflare script -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    </body>
+    <script>
+
+        function navigateToPage(routeString) {
+            window.location.href = `http://localhost:5000/${routeString}`;
+        }
+
+        function postToRoute(routeString) {
+            console.log(routeString);
+            var url = `http://localhost:5000/${routeString}`;
+            var request = new XMLHttpRequest();
+            request.open('POST', url, true);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.send();
+        }
+    </script>
+</html>
