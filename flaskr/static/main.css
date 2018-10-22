@@ -16,6 +16,9 @@
 .nav-link {
     color: var(--blue3);
 }
+.live-map-container {
+    border: 3px solid var(--spectrum-blue);
+}
 
 
 /* Emergency stop tab CSS */
