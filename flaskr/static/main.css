@@ -45,11 +45,13 @@
 .dropdown-item:hover {
     background-color: var(--spectrum-yellow);
 }
+#map-container {
+    text-align: center;
+}
 #live-map {
     border: 3px solid var(--spectrum-blue);
     top: 10%;
-    position: absolute;
-    margin: 0 10% 0 10%;
+    display: inline;
 }
 
 
@@ -80,7 +82,7 @@ i[class^="fas fa-arrow-alt-circle-"]:active {
 .help-text {
     font-size: 16px;
     color: var(--spectrum-green);
-    display: inline;
+    text-align: center;
     word-wrap: normal;
     padding: 10px;
 }
