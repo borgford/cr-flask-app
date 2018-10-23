@@ -6,13 +6,18 @@
 
 {% block sidebar%}
     <div class="dropdown">
-        <button id="destination-picker" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Set Destination
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            {% for waypoint_name in waypoints.keys(): %}
-                <a class="dropdown-item" href="#">{{waypoint_name}}</a>
-            {% endfor %}
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">  
+            <div class="btn-group" role="group">
+                <button id="destination-picker" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Set Destination
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    {% for waypoint_name in waypoints.keys(): %}
+                    <a class="dropdown-item" href="#" onclick="updatePickerText('{{waypoint_name}}')" >{{waypoint_name}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <button id="go-button" type="button" class="btn btn-secondary"> GO </button>
         </div>
     </div>
 {% endblock %}
@@ -28,5 +33,9 @@
             console.log(mapElement.getBoundingClientRect());
         }
         updateRobotIcon()
+
+        function updatePickerText(selectedDestination) {
+            $('#destination-picker').text(selectedDestination); 
+        }
     </script>
 {% endblock %}

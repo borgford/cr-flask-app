@@ -39,7 +39,9 @@
 
 /* Control tab CSS */
 #destination-picker {
-    margin: 20% 0 0 20%;
+    background-color: var(--spectrum-green);
+}
+#go-button {
     background-color: var(--spectrum-green);
 }
 .dropdown-item:hover {
@@ -67,10 +69,16 @@ i[class^="fas fa-arrow-alt-circle-"] {
     color: var(--spectrum-green);
     display: inline;
 }
+
 i[class^="fas fa-arrow-alt-circle-"]:active {
     color: var(--spectrum-yellow);
     display: inline;
 }
+i[itemprop="active"]{
+    color: var(--spectrum-yellow);
+    display: inline;
+}
+
 .fas.fa-ban {
     color: var(--spectrum-red);
     display: inline;

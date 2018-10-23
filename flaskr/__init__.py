@@ -94,6 +94,12 @@ def create_app(test_config=None):
     def current():
         return render_template('current.html')
 
+    @app.route('/current/go')
+    def goToDestination():
+        print('Navigating to destination...')
+        return render_template('current.html')
+
+
     # Teleop page/route
     @app.route('/teleop')
     def teleop():
