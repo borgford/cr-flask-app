@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, Response
 import rospy, rosnode
 import sys
 import cv2
+import json
 from sensor_msgs.msg import CompressedImage
 from std_msgs.msg import UInt8, Bool, String
 from cv_bridge import CvBridge, CvBridgeError
@@ -38,6 +39,17 @@ def gen(im_path):
             print('no image')
         rospy.sleep(.1)
 
+
+# Loads from JSON a dictionary with waypoint names as keys 
+def getWaypointDict():
+    with open('static/waypoints.json') as waypointsFile:
+        waypointDict = {}
+        waypoints = json.load(waypointsFile)
+        for waypoint in waypoints:
+            waypointDict[waypoint['name']] = waypoint
+        return waypointDict
+
+
 def create_app(test_config=None):
 
     # Creates & configures the app
@@ -61,6 +73,9 @@ def create_app(test_config=None):
 
     IMAGE_PATH = "im.jpg"
     bridge=CvBridge()
+
+    # Load a mapping of waypoint names to full waypoint data
+    waypoints = getWaypointDict()
 
 
     @app.route('/stream-test')
@@ -87,7 +102,7 @@ def create_app(test_config=None):
     # Control page/route
     @app.route('/control')
     def control():
-        return render_template('control.html')
+        return render_template('control.html', waypoints=waypoints)
 
     # Admin page/route
     @app.route('/admin')

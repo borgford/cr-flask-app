@@ -11,9 +11,9 @@
             Set Destination
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Waypoint 1</a>
-            <a class="dropdown-item" href="#">Waypoint 2</a>
-            <a class="dropdown-item" href="#">Waypoint 3</a>
+            {% for waypoint_name in waypoints.keys(): %}
+                <a class="dropdown-item" href="#">{{waypoint_name}}</a>
+            {% endfor %}
         </div>
     </div>
     <img id="live-map" src="{{ url_for('static', filename='sample_map.png') }}" alt="live map here" height="auto" width="50%"/>
