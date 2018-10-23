@@ -64,8 +64,13 @@ i[class^="fas fa-arrow-alt-circle-"]:active {
 .fas.fa-ban:active {
     color: var(--spectrum-yellow);
 }
+}
 .help-text {
     margin-top: 30px;
     font-size: 16px;
     color: var(--spectrum-green);
+}
+.live-feed {
+    margin: 10px auto 20px;
+    display: block;
 }

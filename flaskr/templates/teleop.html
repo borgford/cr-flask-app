@@ -4,7 +4,7 @@
 <a id="teleop" class="nav-link active" href="#" onclick="navigateToPage('teleop')">Teleop</a>
 {% endblock %}
 
-{% block content %} 
+{% block content %}
 <div class="teleop-control-set">
     <div class="teleop-control-top-tier">
         <i id="up-arrow" class="fas fa-arrow-alt-circle-up" onclick="postToRoute('teleop/forward')"></i>
@@ -15,12 +15,17 @@
         <i id="right-arrow" class="fas fa-arrow-alt-circle-right" onclick="postToRoute('teleop/right')"></i>
     </div>
     <div class="teleop-control-bottom-tier">
-            <i id="stop-button" class="fas fa-ban" onclick="postToRoute('teleop/stop')"></i>
+        <i id="stop-button" class="fas fa-ban" onclick="postToRoute('teleop/stop')"></i>
     </div>
     <div class="help-text">
-        You can also use arrow keys. Spacebar stops the robot.
+        You can also use arrow keys. Spacebar stops the robot. 'R' to reload.
+    </div>
+    <div class="live-feed">
+    <img src="http://127.0.0.1:5000/stream">
     </div>
 </div>
+
+
 <script>
     document.onkeydown = function(event) {
         var keyPressed = event.code;
@@ -40,7 +45,11 @@
             case 'Space':
                 document.getElementById('stop-button').click();
                 break;
+            case 'KeyR':
+                document.location.reload(false);
+                break;
         }
     }
 </script>
+
 {% endblock %}
