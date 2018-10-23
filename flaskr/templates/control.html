@@ -5,15 +5,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="dropdown">
-    <button id="destination-picker" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Set Destination
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Waypoint 1</a>
-        <a class="dropdown-item" href="#">Waypoint 2</a>
-        <a class="dropdown-item" href="#">Waypoint 3</a>
+<div id="map-container">
+    <div class="dropdown">
+        <button id="destination-picker" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Set Destination
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Waypoint 1</a>
+            <a class="dropdown-item" href="#">Waypoint 2</a>
+            <a class="dropdown-item" href="#">Waypoint 3</a>
+        </div>
     </div>
+    <img id="live-map" src="{{ url_for('static', filename='sample_map.png') }}" alt="live map here" height="auto" width="50%"/>
 </div>
-<div class="live-map-container"></div>
 {% endblock %}
