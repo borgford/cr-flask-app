@@ -16,6 +16,9 @@
 .nav-link {
     color: var(--blue3);
 }
+#main-sidebar {
+    padding: 10px;
+}
 
 
 /* Emergency stop tab CSS */
@@ -39,8 +42,8 @@
     margin: 20% 0 0 20%;
     background-color: var(--spectrum-green);
 }
-#map-container {
-    display: -webkit-inline-box;
+.dropdown-item:hover {
+    background-color: var(--spectrum-yellow);
 }
 #live-map {
     border: 3px solid var(--spectrum-blue);
@@ -60,23 +63,31 @@ div[class*="-tier"] {
 }
 i[class^="fas fa-arrow-alt-circle-"] {
     color: var(--spectrum-green);
+    display: inline;
 }
 i[class^="fas fa-arrow-alt-circle-"]:active {
     color: var(--spectrum-yellow);
+    display: inline;
 }
 .fas.fa-ban {
     color: var(--spectrum-red);
+    display: inline;
 }
 .fas.fa-ban:active {
     color: var(--spectrum-yellow);
-}
+    display: inline;
 }
 .help-text {
-    margin-top: 30px;
     font-size: 16px;
     color: var(--spectrum-green);
+    display: inline;
+    word-wrap: normal;
+    padding: 10px;
 }
-.live-feed {
-    margin: 10px auto 20px;
-    display: block;
+
+.live-feed-container {
+    text-align: center;
+}
+#live-feed {
+    display: inline;
 }

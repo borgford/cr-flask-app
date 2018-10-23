@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block teleop_tab %}
-<a id="teleop" class="nav-link active" href="#" onclick="navigateToPage('teleop')">Teleop</a>
+    <a id="teleop" class="nav-link active" href="#" onclick="navigateToPage('teleop')">Teleop</a>
 {% endblock %}
 
-{% block content %}
+{% block sidebar%}
 <div class="teleop-control-set">
     <div class="teleop-control-top-tier">
         <i id="up-arrow" class="fas fa-arrow-alt-circle-up" onclick="postToRoute('teleop/forward')"></i>
@@ -17,51 +17,51 @@
     <div class="teleop-control-bottom-tier">
         <i id="stop-button" class="fas fa-ban" onclick="postToRoute('teleop/stop')"></i>
     </div>
-    <div class="help-text">
-        You can also use arrow keys. Spacebar stops the robot. 'R' to reload.
-    </div>
-    <div class="live-feed">
-    <img src="http://127.0.0.1:5000/stream">
-    </div>
-    <div id="current-key">
-    </div>
 </div>
+<div class="help-text">
+    You can also use arrow keys. Spacebar stops the robot.
+</div>
+{% endblock %}
 
-
-<script>
-    document.onkeydown = function(event) {
-        var keyPressed = event.code;
-        switch(keyPressed) {
-            case 'ArrowUp':
-                document.getElementById('up-arrow').click();
-                $('#up-arrow').css('color','#E9C46A');
-                setTimeout(() => {$('#up-arrow').css('color','#2A9D8F');}, 100 );
-                break;
-            case 'ArrowDown':
-                document.getElementById('down-arrow').click();
-                $('#down-arrow').css('color','#E9C46A');
-                setTimeout(() => {$('#down-arrow').css('color','#2A9D8F');}, 100 );
-                break;
-            case 'ArrowLeft':
-                document.getElementById('left-arrow').click();
-                $('#left-arrow').css('color','#E9C46A');
-                setTimeout(() => {$('#left-arrow').css('color','#2A9D8F');}, 100 );
-                break;
-            case 'ArrowRight':
-                document.getElementById('right-arrow').click();
-                $('#right-arrow').css('color','#E9C46A');
-                setTimeout(() => {$('#right-arrow').css('color','#2A9D8F');}, 100 );
-                break;
-            case 'Space':
-                document.getElementById('stop-button').click();
-                $('#stop-button').css('color','#E9C46A');
-                setTimeout(() => {$('#stop-button').css('color','#E76F51');}, 100 );
-                break;
-            case 'KeyR':
-                document.location.reload(false);
-                break;
+{% block content %}
+    <div class="live-feed-container">
+        <img id="live-feed" src="http://127.0.0.1:5000/stream">
+        <div class="help-text">Press 'R' to reload image feed.</div>
+    </div>
+    <div id="current-key"></div>
+    <script>
+        document.onkeydown = function(event) {
+            var keyPressed = event.code;
+            switch(keyPressed) {
+                case 'ArrowUp':
+                    document.getElementById('up-arrow').click();
+                    $('#up-arrow').css('color','#E9C46A');
+                    setTimeout(() => {$('#up-arrow').css('color','#2A9D8F');}, 100 );
+                    break;
+                case 'ArrowDown':
+                    document.getElementById('down-arrow').click();
+                    $('#down-arrow').css('color','#E9C46A');
+                    setTimeout(() => {$('#down-arrow').css('color','#2A9D8F');}, 100 );
+                    break;
+                case 'ArrowLeft':
+                    document.getElementById('left-arrow').click();
+                    $('#left-arrow').css('color','#E9C46A');
+                    setTimeout(() => {$('#left-arrow').css('color','#2A9D8F');}, 100 );
+                    break;
+                case 'ArrowRight':
+                    document.getElementById('right-arrow').click();
+                    $('#right-arrow').css('color','#E9C46A');
+                    setTimeout(() => {$('#right-arrow').css('color','#2A9D8F');}, 100 );
+                    break;
+                case 'Space':
+                    document.getElementById('stop-button').click();
+                    $('#stop-button').css('color','#E9C46A');
+                    setTimeout(() => {$('#stop-button').css('color','#E76F51');}, 100 );
+                    break;
+                case 'KeyR':
+                    document.location.reload(false);
+                    break;
+            }
         }
-    }
-</script>
-
+    </script>
 {% endblock %}

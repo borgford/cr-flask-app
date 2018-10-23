@@ -36,15 +36,25 @@
             </li>
         </ul>
     </nav>
-    <body>
-        {% block content %}{% endblock %}
-        <!-- Bootstrap javascript -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <!-- Main CSS: Placed here instead of above; otherwise it gets overriden by cdnjs.cloudflare script -->
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    </body>
+    <div class="container-fluid">
+        <div class="row flex-xl-nowrap">
+            <div id="main-sidebar" class="col-12 col-md-3 col-xl-2 bd-sidebar">
+                {% block sidebar%}
+                {% endblock %}
+            </div>
+            <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content" role="main">
+                <body>
+                    {% block content %}{% endblock %}
+                    <!-- Bootstrap javascript -->
+                    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+                    <!-- Main CSS: Placed here instead of above; otherwise it gets overriden by cdnjs.cloudflare script -->
+                    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+                </body>
+            </main>
+        </div>
+    </div>
     <script>
 
         function navigateToPage(routeString) {

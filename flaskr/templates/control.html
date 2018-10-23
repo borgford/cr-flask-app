@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 
 {% block control_tab %}
-<a id="control" class="nav-link active" href="#" onclick="navigateToPage('control')">Control</a>
+    <a id="control" class="nav-link active" href="#" onclick="navigateToPage('control')">Control</a>
 {% endblock %}
 
-{% block content %}
-<div id="map-container">
+{% block sidebar%}
     <div class="dropdown">
         <button id="destination-picker" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Set Destination
@@ -16,6 +15,18 @@
             {% endfor %}
         </div>
     </div>
-    <img id="live-map" src="{{ url_for('static', filename='sample_map.png') }}" alt="live map here" height="auto" width="50%"/>
-</div>
+{% endblock %}
+
+{% block content %}
+    <div id="map-container">
+        <img id="live-map" src="{{ url_for('static', filename='sample_map.png') }}" alt="live map here" height="auto" width="50%"/>
+    </div>
+    <script>
+        function updateRobotIcon() {
+            console.log('Updating robot icon...');
+            var mapElement = document.getElementById("live-map");
+            console.log(mapElement.getBoundingClientRect());
+        }
+        updateRobotIcon()
+    </script>
 {% endblock %}
