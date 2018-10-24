@@ -1,8 +1,76 @@
 {% extends 'base.html' %}
 
+{% block header %}
+    <script type="text/javascript" src="https://static.robotwebtools.org/EaselJS/current/easeljs.min.js"></script>
+    <script type="text/javascript" src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script type="text/javascript" src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <script type="text/javascript" src="https://static.robotwebtools.org/ros2djs/current/ros2d.js"></script>
+
+    <script type="text/javascript" type="text/javascript">
+    // Setup all visualization elements when the page is loaded.
+    function init() {
+        // Connect to ROS.
+        var ros = new ROSLIB.Ros({
+        url : 'ws://0.0.0.0:9090'
+        });
+        // Create the main viewer.
+        var viewer = new ROS2D.Viewer({
+        divID : 'map',
+        width : 1500,
+        height : 1500
+        });
+        // Setup the map client.
+        var gridClient = new ROS2D.OccupancyGridClient({
+        ros : ros,
+        rootObject : viewer.scene,
+        //   continuous: true
+        });
+        // Scale the canvas to fit to the map
+        gridClient.on('change', function(){
+        viewer.scaleToDimensions(gridClient.currentGrid.width, gridClient.currentGrid.height);
+        viewer.shift(gridClient.currentGrid.pose.position.x, gridClient.currentGrid.pose.position.y);
+        });
+        // Set's attributes on arrow representing robot on map
+        var robotMarker = new ROS2D.NavigationArrow({
+            size : 0.25,
+            strokeSize : 0.05,
+            pulse: true
+        });
+        // Create object representing the amcl/pose topic 
+        var poseTopic = new ROSLIB.Topic({
+            ros: ros,
+            name: '/amcl_pose',
+            messageType: 'geometry_msgs/PoseWithCovarianceStamped'
+        });
+        // Subscribe to robot's pose, updating arrow location/orientation
+        poseTopic.subscribe(
+            function(pose) {
+                console.log('subscribing to pose...')
+                robotMarker.x = pose.pose.pose.position.x;
+                robotMarker.y = -pose.pose.pose.position.y;
+                var quaZ = pose.pose.pose.orientation.z;
+                var degreeZ = 0;
+                if( quaZ >= 0 ) {
+                    degreeZ = quaZ / 1 * 180
+                    console.log('degreeZPositive: ' + degreeZ)
+                } else {
+                    degreeZ = (-quaZ) / 1 * 180 + 180
+                    console.log('degreeZNegative: ' + degreeZ)
+                };
+                robotMarker.rotation = -degreeZ + 35;
+            }
+        );
+        // Add robot marker/arrow to map
+        gridClient.rootObject.addChild(robotMarker);
+    }
+    </script>
+{% endblock %}
+
+
 {% block control_tab %}
     <a id="control" class="nav-link active" href="#" onclick="navigateToPage('control')">Control</a>
 {% endblock %}
+
 
 {% block sidebar%}
     <div class="dropdown">
@@ -22,9 +90,11 @@
     </div>
 {% endblock %}
 
+
 {% block content %}
-    <div id="map-container">
-        <img id="live-map" src="{{ url_for('static', filename='sample_map.png') }}" alt="live map here" height="auto" width="80%"/>
+    <div id="map-container" onload="init()">
+        <div id="map"></div>
+        <!-- <img id="live-map" src="{{ url_for('static', filename='sample_map.png') }}" alt="live map here" height="auto" width="80%"/> -->
     </div>
     <script>
         function updatePickerText(selectedDestination) {
