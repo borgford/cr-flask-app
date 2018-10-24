@@ -5,6 +5,8 @@ import json
 import pygame
 import actionlib
 import random
+import time
+import numpy as np
 from std_msgs.msg import UInt8, String
 from sensor_msgs.msg import CompressedImage
 from geometry_msgs.msg import Twist, Pose
@@ -57,72 +59,84 @@ def nav_cb(feedback):
 last_im_pub = None
 def im_cb(msg):
     global last_im_pub
-    if last_im_pub is not None:
-        if time.time() - last_im_pub  < .1:
+    if last_im_pub is not None and time.time() - last_im_pub  < .1:
             return
-        else:
-            last_im_pub = time.time()
-            web_camera_pub.publish(msg)
 
-status = 0
-target_linear_vel = 0
-target_angular_vel = 0
-control_linear_vel = 0
-control_angular_vel = 0
+    last_im_pub = time.time()
+    web_camera_pub.publish(msg)
+
+cur_linear_x = 0
+cur_angular_z = 0
+LINEAR_MAX = 3.0
+ANGULAR_MAX = 5.05447028499
+
+def move_speed_cb(msg):
+    global cur_linear_x
+    global cur_angular_z
+    cur_linear_x = msg.linear.x
+    cur_angular_z = msg.angular.z
 
 def teleop_cb(msg):
-    print ("message in")
-    global status
-    global target_linear_vel
-    global target_angular_vel
-    global control_linear_vel
-    global control_angular_vel
+    teleop_pub.publish(msg)
 
-    if msg.data == 1:
-        target_linear_vel = target_linear_vel + 0.01
-        status = status + 1
-    elif msg.data == 2:
-        target_linear_vel = target_linear_vel - 0.01
-        status = status + 1
-    elif msg.data == 3:
-        target_angular_vel = target_angular_vel + 0.1
-        status = status + 1
-    elif msg.data == 4:
-        target_angular_vel = target_angular_vel - 0.1
-        status = status + 1
-    elif msg.data == 0:
-        target_linear_vel   = 0
-        control_linear_vel  = 0
-        target_angular_vel  = 0
-        control_angular_vel = 0
-
-    if target_linear_vel > control_linear_vel:
-                control_linear_vel = min( target_linear_vel, control_linear_vel + (0.01/4.0) )
-    else:
-        control_linear_vel = target_linear_vel
-
-    if target_angular_vel > control_angular_vel:
-        control_angular_vel = min( target_angular_vel, control_angular_vel + (0.1/4.0) )
-    else:
-        control_angular_vel = target_angular_vel
-
-    twist = Twist()
-    twist.linear.x = control_linear_vel; twist.linear.y = 0; twist.linear.z = 0
-    twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = control_angular_vel
-
-    if (target_angular_vel != 0 or target_linear_vel != 0):
-		teleop_pub.publish(twist)
+    # if msg.data == 0:
+    #     stop_vel = Twist()
+    #     teleop_pub.publish(stop_vel)
+    #
+    # if msg.data == 1:
+    #     forward_increase = np.clip(np.linspace(cur_linear_x,.75,500),-LINEAR_MAX,LINEAR_MAX).tolist()
+    #     forward_decrease = np.clip(np.linspace(.75,0,100),-LINEAR_MAX,LINEAR_MAX).tolist()
+    #     forward_x = forward_increase + forward_decrease
+    #
+    #     for x in forward_x:
+    #         vel = Twist()
+    #         vel.linear.x = x
+    #         teleop_pub.publish(vel)
+    #
+    # if msg.data == 2:
+    #     reverse_increase = np.clip(np.linspace(cur_linear_x,.75,500),-LINEAR_MAX,LINEAR_MAX).tolist()
+    #     reverse_decrease = np.clip(np.linspace(.75,0,100),-LINEAR_MAX,LINEAR_MAX).tolist()
+    #     reverse_x = reverse_increase + reverse_decrease
+    #     print(reverse_x)
+    #
+    #     for x in reverse_x:
+    #         vel = Twist()
+    #         vel.linear.x = x
+    #         teleop_pub.publish(vel)
+    #
+    #
+    # if msg.data == 3:
+    #     left_increase = np.clip(np.linspace(cur_angular_z,cur_angular_z+.5,500),-ANGULAR_MAX,ANGULAR_MAX).tolist()
+    #     left_decrease = np.clip(np.linspace(cur_angular_z+.5,0,100),-ANGULAR_MAX,ANGULAR_MAX).tolist()
+    #     left_z = left_increase + left_decrease
+    #
+    #     for z in left_z:
+    #         vel = Twist()
+    #         vel.angular.z = z
+    #         teleop_pub.publish(vel)
+    #
+    # if msg.data == 4:
+    #     right_increase = np.clip(np.linspace(cur_angular_z,cur_angular_z,.5,500),-ANGULAR_MAX,ANGULAR_MAX).tolist()
+    #     right_decrease = np.clip(np.linspace(cur_angular_z-.5,0,100),-ANGULAR_MAX,ANGULAR_MAX).tolist()
+    #     right_z = right_increase + right_decrease
+    #
+    #     for z in right_z:
+    #         vel = Twist()
+    #         vel.angular.z = z
+    #         teleop_pub.publish(vel)
 
 
 def destination_cb(msg):
     pass
 
+
 # subscribers
 system_vitals_sub = rospy.Subscriber('/vitals_status', RoverStatusMessage, vitals_cb)
 image_sub =  rospy.Subscriber('/camera/rgb/image_rect_color/compressed', CompressedImage, im_cb)
+move_speed_sub = rospy.Subscriber('/mobile_base/commands/velocity', Twist, move_speed_cb)
 # publishers
 rover_status_pub = rospy.Publisher('/system_status', UInt8, queue_size=1)
-teleop_pub = rospy.Publisher('/cmd_vel_mux/input/teleop', Twist, queue_size=1)
+teleop_pub = rospy.Publisher('/teleop_keypress', UInt8, queue_size=100)
 
 # web topics
 web_teleop_sub = rospy.Subscriber('/web/teleop', UInt8, teleop_cb)
@@ -130,9 +144,7 @@ web_destination_sub = rospy.Subscriber('/web/destination', String, destination_c
 web_camera_pub = rospy.Publisher('/web/camera', CompressedImage, queue_size=1)
 web_state_pub = rospy.Publisher('/web/state', String, queue_size=1)
 
-pygame.mixer.init()
-
-
+# pygame.mixer.init()
 rospy.init_node('rover_controller')
 # nav_controller = actionlib.SimpleActionClient('navigation_controller', NavigationControllerAction)
 # print("asking for server")
