@@ -21,8 +21,8 @@ def update_im(msg):
     try:
         global bridge
         im = bridge.compressed_imgmsg_to_cv2(msg, "bgr8")
-        # cv2.imshow('f',cv2.resize(im,  (0, 0), fx=1, fy=1))
-        # cv2.waitKey(1)
+        cv2.imshow('f',cv2.resize(im,  (0, 0), fx=1, fy=1))
+        cv2.waitKey(1)
         cv2.imwrite(IMAGE_PATH,im)
 
     except CvBridgeError as e:
@@ -183,4 +183,4 @@ goal_pub =  rospy.Publisher('/web/destination', String, queue_size=1)
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(host='0.0.0.0',port=int(os.getenv('PORT', 5000)))
+    app.run(host='0.0.0.0',port=int(os.getenv('PORT', 5000)),use_reloader=False)
