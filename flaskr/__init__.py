@@ -131,42 +131,6 @@ def create_app(test_config=None):
     # needed to import packages
     # os.sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__) ) ) )
 
-    # app.register_blueprint(teleop.bp)
-    # Teleop forward
-    # @app.route('/teleop/forward', methods=['POST'])
-    # def teleop_forward():
-    #     teleop_pub.publish(1)
-    #     print('Driving forward')
-    #     return render_template('teleop.html')
-
-    # # Teleop backward
-    # @app.route('/teleop/backward', methods=['POST'])
-    # def teleop_backward():
-    #     teleop_pub.publish(2)
-    #     print('Driving backward')
-    #     return render_template('teleop.html')
-
-    # # Teleop left
-    # @app.route('/teleop/left', methods=['POST'])
-    # def teleop_left():
-    #     teleop_pub.publish(3)
-    #     print('Driving left')
-    #     return render_template('teleop.html')
-
-    # # Teleop right
-    # @app.route('/teleop/right', methods=['POST'])
-    # def teleop_right():
-    #     teleop_pub.publish(4)
-    #     print('Driving right')
-    #     return render_template('teleop.html')
-
-    # # Teleop stop
-    # @app.route('/teleop/stop', methods=['POST'])
-    # def teleop_stop():
-    #     teleop_pub.publish(0)
-    #     print('Stopping')
-    #     return render_template('teleop.html')
-
     return app
 
 def update_state():

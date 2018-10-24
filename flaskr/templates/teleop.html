@@ -34,36 +34,25 @@
             $.post( "/teleop/command", { command: commandString } );
         }
         document.onkeydown = function(event) {
+            var keyMap = {
+                'ArrowUp': 'up-arrow',
+                'ArrowDown': 'down-arrow',
+                'ArrowLeft': 'left-arrow',
+                'ArrowRight': 'right-arrow',
+                'Space': 'stop-button'
+            };
             var keyPressed = event.code;
-            switch(keyPressed) {
-                case 'ArrowUp':
-                    document.getElementById('up-arrow').click();
-                    $('#up-arrow').css('color','#E9C46A');
-                    setTimeout(() => {$('#up-arrow').css('color','#2A9D8F');}, 100 );
-                    break;
-                case 'ArrowDown':
-                    document.getElementById('down-arrow').click();
-                    $('#down-arrow').css('color','#E9C46A');
-                    setTimeout(() => {$('#down-arrow').css('color','#2A9D8F');}, 100 );
-                    break;
-                case 'ArrowLeft':
-                    document.getElementById('left-arrow').click();
-                    $('#left-arrow').css('color','#E9C46A');
-                    setTimeout(() => {$('#left-arrow').css('color','#2A9D8F');}, 100 );
-                    break;
-                case 'ArrowRight':
-                    document.getElementById('right-arrow').click();
-                    $('#right-arrow').css('color','#E9C46A');
-                    setTimeout(() => {$('#right-arrow').css('color','#2A9D8F');}, 100 );
-                    break;
-                case 'Space':
-                    document.getElementById('stop-button').click();
-                    $('#stop-button').css('color','#E9C46A');
-                    setTimeout(() => {$('#stop-button').css('color','#E76F51');}, 100 );
-                    break;
-                case 'KeyR':
-                    document.location.reload(false);
-                    break;
+            
+            if (keyPressed === 'KeyR'){
+                document.location.reload(false);
+            }
+
+            if (Object.keys(keyMap).includes(keyPressed)) {
+                var defaultColor = keyPressed === 'Space' ? '#E76F51' : '#2A9D8F';
+                var elementId = keyMap[keyPressed];
+                document.getElementById( elementId ).click();
+                    $(`#${elementId}`).css('color','#E9C46A');
+                    setTimeout(() => {$(`#${elementId}`).css('color', defaultColor);}, 100 );
             }
         }
     </script>
