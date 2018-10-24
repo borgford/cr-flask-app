@@ -6,9 +6,7 @@
 #
 # Authors:
 #   * Siegfried-A. Gevatter
-
-import curses
-import math
+#   * Modified 2018 Alexander Feldman, feldmanay@gmail.com
 
 import rospy
 from geometry_msgs.msg import Twist

@@ -10,9 +10,7 @@ from cv_bridge import CvBridge, CvBridgeError
 
 
 node_name = 'web_page'
-# if '/'+node_name not in rosnode.get_node_names():
-print('initing a node')
-rospy.init_node(node_name, anonymous=True)
+rospy.init_node(node_name)
 
 
 bridge=CvBridge()
@@ -40,7 +38,7 @@ def gen(im_path):
         rospy.sleep(.1)
 
 
-# Loads from JSON a dictionary with waypoint names as keys 
+# Loads from JSON a dictionary with waypoint names as keys
 def getWaypointDict():
     with open('static/waypoints.json') as waypointsFile:
         waypointDict = {}
@@ -109,7 +107,7 @@ def create_app(test_config=None):
         command_string = request.form["command"]
         teleop_pub.publish(command_mappings[command_string])
         print("Issued " + command_string + " command")
-        return "Issued " + command_string + " command" 
+        return "Issued " + command_string + " command"
 
 
     # Control page/route
@@ -120,7 +118,7 @@ def create_app(test_config=None):
     @app.route('/control/go', methods=['POST'])
     def goToDestination():
         waypoint_name = request.form["waypointName"]
-        # Execute navigation to goal here
+        goal_pub.publish(waypoint_name)
         print(waypoints[waypoint_name])
         return "Navigating to " + waypoint_name
 

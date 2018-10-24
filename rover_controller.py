@@ -10,6 +10,7 @@ import numpy as np
 from std_msgs.msg import UInt8, String
 from sensor_msgs.msg import CompressedImage
 from geometry_msgs.msg import Twist, Pose
+from nav_msgs.msg import OccupancyGrid
 from roving_ben_and_alex.msg import RoverStatusMessage, NavigationControllerAction, NavigationControllerGoal
 
 ROBOT_STATES_FILE = "/home/alexander-feldman/catkin_ws/src/Gen-2-Starter-Code/files/robot_states.json"
@@ -79,53 +80,6 @@ def move_speed_cb(msg):
 def teleop_cb(msg):
     teleop_pub.publish(msg)
 
-    # if msg.data == 0:
-    #     stop_vel = Twist()
-    #     teleop_pub.publish(stop_vel)
-    #
-    # if msg.data == 1:
-    #     forward_increase = np.clip(np.linspace(cur_linear_x,.75,500),-LINEAR_MAX,LINEAR_MAX).tolist()
-    #     forward_decrease = np.clip(np.linspace(.75,0,100),-LINEAR_MAX,LINEAR_MAX).tolist()
-    #     forward_x = forward_increase + forward_decrease
-    #
-    #     for x in forward_x:
-    #         vel = Twist()
-    #         vel.linear.x = x
-    #         teleop_pub.publish(vel)
-    #
-    # if msg.data == 2:
-    #     reverse_increase = np.clip(np.linspace(cur_linear_x,.75,500),-LINEAR_MAX,LINEAR_MAX).tolist()
-    #     reverse_decrease = np.clip(np.linspace(.75,0,100),-LINEAR_MAX,LINEAR_MAX).tolist()
-    #     reverse_x = reverse_increase + reverse_decrease
-    #     print(reverse_x)
-    #
-    #     for x in reverse_x:
-    #         vel = Twist()
-    #         vel.linear.x = x
-    #         teleop_pub.publish(vel)
-    #
-    #
-    # if msg.data == 3:
-    #     left_increase = np.clip(np.linspace(cur_angular_z,cur_angular_z+.5,500),-ANGULAR_MAX,ANGULAR_MAX).tolist()
-    #     left_decrease = np.clip(np.linspace(cur_angular_z+.5,0,100),-ANGULAR_MAX,ANGULAR_MAX).tolist()
-    #     left_z = left_increase + left_decrease
-    #
-    #     for z in left_z:
-    #         vel = Twist()
-    #         vel.angular.z = z
-    #         teleop_pub.publish(vel)
-    #
-    # if msg.data == 4:
-    #     right_increase = np.clip(np.linspace(cur_angular_z,cur_angular_z,.5,500),-ANGULAR_MAX,ANGULAR_MAX).tolist()
-    #     right_decrease = np.clip(np.linspace(cur_angular_z-.5,0,100),-ANGULAR_MAX,ANGULAR_MAX).tolist()
-    #     right_z = right_increase + right_decrease
-    #
-    #     for z in right_z:
-    #         vel = Twist()
-    #         vel.angular.z = z
-    #         teleop_pub.publish(vel)
-
-
 def destination_cb(msg):
     pass
 
@@ -143,6 +97,7 @@ web_teleop_sub = rospy.Subscriber('/web/teleop', UInt8, teleop_cb)
 web_destination_sub = rospy.Subscriber('/web/destination', String, destination_cb)
 web_camera_pub = rospy.Publisher('/web/camera', CompressedImage, queue_size=1)
 web_state_pub = rospy.Publisher('/web/state', String, queue_size=1)
+web_map_pub = rospy.Publisher('/web/map', OccupancyGrid, queue_size=1, latch=True)
 
 # pygame.mixer.init()
 rospy.init_node('rover_controller')
