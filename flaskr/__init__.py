@@ -49,6 +49,10 @@ def getWaypointDict():
             waypointDict[waypoint['name']] = waypoint
         return waypointDict
 
+def navigateToDistination(destination_name, waypoints):
+    print("Starting navigation to:")
+    print(destination_name)
+
 
 def create_app(test_config=None):
 
@@ -94,21 +98,24 @@ def create_app(test_config=None):
     def current():
         return render_template('current.html')
 
-    @app.route('/current/go')
-    def goToDestination():
-        print('Navigating to destination...')
-        return render_template('current.html')
-
-
     # Teleop page/route
     @app.route('/teleop')
     def teleop():
         return render_template('teleop.html')
 
+
     # Control page/route
     @app.route('/control')
     def control():
-        return render_template('control.html', waypoints=waypoints)
+        return render_template('control.html', waypoints=waypoints, navigateToDistination=navigateToDistination)
+
+    @app.route('/control/go', methods=['POST'])
+    def goToDestination():
+        waypoint_name = request.form["waypointName"]
+        # Execute navigation to goal here
+        print(waypoints[waypoint_name])
+        return "Navigating to " + waypoint_name
+
 
     # Admin page/route
     @app.route('/admin')

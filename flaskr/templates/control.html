@@ -17,7 +17,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <button id="go-button" type="button" class="btn btn-secondary"> GO </button>
+            <button id="go-button" type="button" class="btn btn-secondary" onclick="goToDestination()"> GO </button>
         </div>
     </div>
 {% endblock %}
@@ -27,15 +27,12 @@
         <img id="live-map" src="{{ url_for('static', filename='sample_map.png') }}" alt="live map here" height="auto" width="80%"/>
     </div>
     <script>
-        function updateRobotIcon() {
-            console.log('Updating robot icon...');
-            var mapElement = document.getElementById("live-map");
-            console.log(mapElement.getBoundingClientRect());
-        }
-        updateRobotIcon()
-
         function updatePickerText(selectedDestination) {
             $('#destination-picker').text(selectedDestination); 
+        }
+        function goToDestination() {
+            var destination = $('#destination-picker').text()
+            $.post( "/control/go", { waypointName: destination } );
         }
     </script>
 {% endblock %}
