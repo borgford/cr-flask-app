@@ -8,7 +8,7 @@
     <div class="dropdown">
         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">  
             <div class="btn-group" role="group">
-                <button id="destination-picker" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button id="destination-picker" itemprop="not-ready" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Set Destination
                 </button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -28,11 +28,16 @@
     </div>
     <script>
         function updatePickerText(selectedDestination) {
-            $('#destination-picker').text(selectedDestination); 
+            var picker = $('#destination-picker');
+            picker.attr('itemprop','ready');
+            picker.text(selectedDestination);
         }
         function goToDestination() {
-            var destination = $('#destination-picker').text()
-            $.post( "/control/go", { waypointName: destination } );
+            var picker = $('#destination-picker');
+            if (picker.attr('itemprop') === 'ready' ){
+                var destination = picker.text();
+                $.post( "/control/go", { waypointName: destination } );
+            }
         }
     </script>
 {% endblock %}

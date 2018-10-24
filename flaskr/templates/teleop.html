@@ -7,7 +7,7 @@
 {% block sidebar%}
 <div class="teleop-control-set">
     <div class="teleop-control-top-tier">
-        <i id="up-arrow" class="fas fa-arrow-alt-circle-up" onclick="postToRoute('teleop/forward')"></i>
+        <i id="up-arrow" class="fas fa-arrow-alt-circle-up" onclick="sendCommand('forward')"></i>
     </div>
     <div class="teleop-control-middle-tier">
         <i id="left-arrow" class="fas fa-arrow-alt-circle-left" onclick="postToRoute('teleop/left')"></i>
@@ -30,6 +30,9 @@
     </div>
     <div id="current-key"></div>
     <script>
+        function sendCommand(commandString){
+            $.post( "/teleop/command", { command: commandString } );
+        }
         document.onkeydown = function(event) {
             var keyPressed = event.code;
             switch(keyPressed) {
