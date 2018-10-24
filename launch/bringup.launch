@@ -1,0 +1,19 @@
+<!--
+  KeyOp launcher
+ -->
+
+<launch>
+  <arg name="map_file" default="$(find cr-flask-app)/maps/gazebo_house.yaml"/>
+
+  <include file="$(find turtlebot_bringup)/launch/3d_sensor_suite.launch"/>
+  <include file="$(find turtlebot_bringup)/launch/concert_client.launch"/>
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+
+  <node pkg="cr-flask-app" type="rover_controller.py" name="rover_controller" output="screen"></node>
+  <node pkg="cr-flask-app" type="turtlebot_teleop_key.py" name="turtlebot_teleop_key" output="screen"></node>
+  <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_file)" output="screen" />
+
+  <node pkg="cr-flask-app" type="web_launcher.sh" name="web_launcher" output="screen"></node>
+  <node pkg="cr-flask-app" type="py_launcher.sh" name="py_launcher" output="screen"></node>
+
+</launch>
