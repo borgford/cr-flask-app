@@ -10,12 +10,12 @@
         <i id="up-arrow" class="fas fa-arrow-alt-circle-up" onclick="sendCommand('forward')"></i>
     </div>
     <div class="teleop-control-middle-tier">
-        <i id="left-arrow" class="fas fa-arrow-alt-circle-left" onclick="postToRoute('teleop/left')"></i>
-        <i id="down-arrow" class="fas fa-arrow-alt-circle-down" onclick="postToRoute('teleop/backward')"></i>
-        <i id="right-arrow" class="fas fa-arrow-alt-circle-right" onclick="postToRoute('teleop/right')"></i>
+        <i id="left-arrow" class="fas fa-arrow-alt-circle-left" onclick="sendCommand('left')"></i>
+        <i id="down-arrow" class="fas fa-arrow-alt-circle-down" onclick="sendCommand('backward')"></i>
+        <i id="right-arrow" class="fas fa-arrow-alt-circle-right" onclick="sendCommand('right')"></i>
     </div>
     <div class="teleop-control-bottom-tier">
-        <i id="stop-button" class="fas fa-ban" onclick="postToRoute('teleop/stop')"></i>
+        <i id="stop-button" class="fas fa-ban" onclick="sendCommand('stop')"></i>
     </div>
 </div>
 <div class="help-text">
