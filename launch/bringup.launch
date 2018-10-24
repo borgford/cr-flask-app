@@ -5,7 +5,7 @@
 <launch>
   <arg name="map_file" default="$(find cr-flask-app)/maps/gazebo_house.yaml"/>
 
-  <include file="$(find turtlebot_bringup)/launch/3d_sensor_suite.launch"/>
+  <include file="$(find turtlebot_bringup)/launch/3dsensor.launch"/>
   <include file="$(find turtlebot_bringup)/launch/concert_client.launch"/>
   <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
 
