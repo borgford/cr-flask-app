@@ -19,9 +19,9 @@ def update_im(msg):
     try:
         global bridge
         im = bridge.compressed_imgmsg_to_cv2(msg, "bgr8")
-        cv2.imshow('f',cv2.resize(im,  (0, 0), fx=1, fy=1))
-        cv2.waitKey(1)
-        cv2.imwrite(IMAGE_PATH,im)
+        # cv2.imshow('f',cv2.resize(im,  (0, 0), fx=1, fy=1))
+        # cv2.waitKey(1)
+        # cv2.imwrite(IMAGE_PATH,im)
 
     except CvBridgeError as e:
         print(e)
